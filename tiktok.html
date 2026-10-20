@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>TikTok Login – Felix Reels</title>
+<style>
+  body { font-family: -apple-system, system-ui, sans-serif; max-width: 720px; margin: 0 auto; padding: 32px 16px; line-height: 1.6; color: #1a1a1a; background: #fff; }
+  a { color: #0b57d0; }
+  .box { border: 1px solid #ddd; border-radius: 12px; padding: 16px; margin: 16px 0; word-break: break-all; font-family: ui-monospace, monospace; font-size: 13px; background: #f7f7f7; }
+  button { font-size: 17px; padding: 12px 20px; border-radius: 10px; border: 0; background: #111; color: #fff; width: 100%; }
+  .ok { color: #137333; font-weight: 600; }
+  .err { color: #b3261e; font-weight: 600; }
+</style>
+</head>
+<body>
+<h1>Felix Reels × TikTok</h1>
+<p id="msg">Checking…</p>
+<div class="box" id="url"></div>
+<button id="copy" type="button">Copy address / Скопировать адрес</button>
+<p id="done" class="ok" hidden>Copied! Paste it into the Felix Reels Telegram bot. / Скопировано! Вставьте в бота Felix Reels.</p>
+<p><a href="index.html">← Home</a> · <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Service</a></p>
+<script>
+  var full = location.href;
+  var q = new URLSearchParams(location.search);
+  var msg = document.getElementById('msg');
+  document.getElementById('url').textContent = full;
+  if (q.get('code')) {
+    msg.className = 'ok';
+    msg.textContent = 'TikTok access granted. Copy this address and send it to the bot within a few minutes. / Доступ разрешён — скопируйте адрес и пришлите боту в течение нескольких минут.';
+  } else if (q.get('error')) {
+    msg.className = 'err';
+    msg.textContent = 'TikTok did not grant access: ' + (q.get('error_description') || q.get('error')) + '. Start again with /tiktok in the bot.';
+  } else {
+    msg.textContent = 'This page receives the TikTok login result for the Felix Reels bot.';
+  }
+  document.getElementById('copy').onclick = function () {
+    var show = function () { document.getElementById('done').hidden = false; };
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(full).then(show, function () { window.prompt('Copy:', full); });
+    } else {
+      window.prompt('Copy:', full);
+    }
+  };
+</script>
+</body>
+</html>
